@@ -12,7 +12,7 @@ interface AccessibilityProviderProps {
     token: string
 }
 
-export const UseAccessibility = {
+export const AccessibilityProvider = {
     props: ["token"],
     setup(props: AccessibilityProviderProps, {slots}: any) {
         const ready = ref(false)

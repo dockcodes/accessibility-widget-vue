@@ -13,47 +13,45 @@ yarn add @dockcodes/accessibility-widget-vue
 ```
 
 ### Usage
-main.ts
-```tsx
-import { createApp } from "vue"
-import App from "./App.vue"
-import AccessibilityPlugin from "@dockcodes/accessibility-widget-vue"
-
-const app = createApp(App)
-
-app.use(AccessibilityPlugin, "YOUR_TOKEN")
-
-app.mount("#app")
-```
-Component
+App.vue
 ```vue
 <template>
-  <div>
-    <button @click="setContrast">Enable contrast</button>
-    <button @click="openMenu">Open menu</button>
-    <p v-if="!ready">Widget loading…</p>
+  <AccessibilityProvider token="YOUR_TOKEN">
+    <Demo />
+  </AccessibilityProvider>
+</template>
+
+<script setup lang="ts">
+  import { AccessibilityProvider } from "@dockcodes/accessibility-widget-vue"
+  import Demo from './Demo.vue'
+</script>
+```
+Demo.vue
+```vue
+<template>
+  <div v-if="!ready">
+    <p>Widget loading…</p>
+  </div>
+  <div v-else style="padding: 20px;">
+    <h1>Demo Accessibility Widget</h1>
+    <button @click="accessibility.setContrast(true)">Enable contrast</button>
+    <button @click="accessibility.toggleInvertColors()">Invert colors</button>
+    <button @click="accessibility.setFontSize(4)">Large font</button>
+    <button @click="accessibility.resetAll()">Reset</button>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue"
-import { useAccessibility } from "@dockcodes/accessibility-widget-vue"
+<script setup lang="ts">
+  import { watchEffect } from 'vue'
+  import { useAccessibility } from '@dockcodes/accessibility-widget-vue'
 
-export default defineComponent({
-  setup() {
-    const { accessibility, ready } = useAccessibility()
+  const { accessibility, ready } = useAccessibility()
 
-    const setContrast = () => {
-      if (accessibility) accessibility.setContrast(true)
+  watchEffect(() => {
+    if (ready) {
+      accessibility.onMenuOpen(() => console.log('Menu opened!'))
     }
-    
-    const openMenu = () => {
-      if (accessibility) accessibility.openMenu()
-    }
-
-    return { setContrast, openMenu, ready }
-  }
-})
+  })
 </script>
 ```
 ### Base package
