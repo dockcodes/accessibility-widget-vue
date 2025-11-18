@@ -2,7 +2,7 @@ import {App, reactive, provide, inject} from "vue"
 import {accessibility} from "@dockcodes/accessibility-widget"
 
 export interface AccessibilityContextValue {
-    accessibility: typeof accessibility
+    accessibility: typeof accessibility | null
     ready: boolean
 }
 
