@@ -9,8 +9,8 @@ export interface AccessibilityContextValue {
 export const AccessibilitySymbol = Symbol("Accessibility")
 
 export function createAccessibilityProvider(token: string) {
-    const state: AccessibilityContextValue = reactive({
-        accessibility,
+    const state = reactive<AccessibilityContextValue>({
+        accessibility: accessibility,
         ready: false
     })
 
@@ -35,8 +35,8 @@ export function useAccessibility() {
 
 export default {
     install(app: App, token: string) {
-        const state: AccessibilityContextValue = reactive({
-            accessibility,
+        const state = reactive<AccessibilityContextValue>({
+            accessibility: accessibility,
             ready: false
         })
 
